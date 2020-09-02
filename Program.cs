@@ -347,7 +347,7 @@ namespace RocketLeague
             var CloseTo4 = Math.Abs(CloseTo - CloseTo3);
             var Ball1 = Math.Abs(BallLocation.X);
             
-            Console.WriteLine(front_to_target2);
+            
 
 
 
