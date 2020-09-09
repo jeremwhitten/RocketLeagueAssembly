@@ -145,7 +145,7 @@ namespace RocketLeague
                 
             }
             else
-                if (returnedbool1 == true)
+                if (returnedbool1 == false)
             {
                 Console.WriteLine("NOT A VIP MEMBER!!!");
             }
