@@ -230,7 +230,7 @@ namespace RocketLeague
             if (GameEvent == IntPtr.Zero)
             {
                 Console.WriteLine($"[{DateTime.Now}] Scanning.");
-                string sig = "C0 1F ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 04 00 10 10 01 00 00 02 ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 FF FF FF FF FF FF FF FF ?? ?? ?? ?? FF FF FF FF ?? ?? ?? ?? ?? ?? ?? ?? F9 EC 00 00 ?? 00 00 00";
+                string sig = "58 2F ?? ?? ?? 7F 00 00 ?? ?? ?? ?? ?? ?? 00 00 04 00 10 10 01 00 00 02 ?? ?? ?? ?? ?? ?? 00 00 ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 FF FF FF FF FF FF FF FF ?? ?? ?? 00 FF FF FF FF";
                 GameEvent = Memory.FindSignatureBase(processHandle, GameBase, GameSize, sig);
                 Console.WriteLine("Scan Completed! Found GameEvent!");
                 Console.WriteLine("MAKE SURE TO PRESS F5 WHEN ENTERING A NEW GAME!!");
@@ -240,7 +240,7 @@ namespace RocketLeague
 
 
 
-            var GameEngine = Memory.ReadPointer(processHandle, (IntPtr)GameBase.ToInt64() + 0x023BBEE8, isWow64Process);
+            var GameEngine = Memory.ReadPointer(processHandle, (IntPtr)GameBase.ToInt64() + 0x0241F130, isWow64Process);
             var LocalPlayersArray = Memory.ReadPointer(processHandle, (IntPtr)GameEngine.ToInt64() + 0x760, isWow64Process);
 
             var LocalPlayer = Memory.ReadPointer(processHandle, (IntPtr)LocalPlayersArray.ToInt64(), isWow64Process);
@@ -253,28 +253,28 @@ namespace RocketLeague
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             ///
 
-            if (Components.VisualsComponent.AutoScan.Enabled)
-            {
-                var GameTimeInSeconds = Memory.ReadInt64(processHandle, (IntPtr)GameEvent.ToInt64() + 0x07D8);
+            //if (Components.VisualsComponent.AutoScan.Enabled)
+            //{
+            //    var GameTimeInSeconds = Memory.ReadInt64(processHandle, (IntPtr)GameEvent.ToInt64() + 0x07D8);
                
-                if (GameTimeInSeconds > 300)
-                {
-                    Console.WriteLine($"[{DateTime.Now}] Scanning.");
-                    string sig = "C0 1F ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 04 00 10 10 01 00 00 02 ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 FF FF FF FF FF FF FF FF ?? ?? ?? ?? FF FF FF FF ?? ?? ?? ?? ?? ?? ?? ?? F9 EC 00 00 ?? 00 00 00";
-                    GameEvent = Memory.FindSignatureBase(processHandle, GameBase, GameSize, sig);
-                    Console.WriteLine("Scan Completed! Found GameEvent!");
-                    Console.WriteLine("MAKE SURE TO PRESS F5 WHEN ENTERING A NEW GAME!!");
-                }
+            //    if (GameTimeInSeconds > 300)
+            //    {
+            //        Console.WriteLine($"[{DateTime.Now}] Scanning.");
+            //        string sig = "C0 1F ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 04 00 10 10 01 00 00 02 ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 FF FF FF FF FF FF FF FF ?? ?? ?? ?? FF FF FF FF ?? ?? ?? ?? ?? ?? ?? ?? F9 EC 00 00 ?? 00 00 00";
+            //        GameEvent = Memory.FindSignatureBase(processHandle, GameBase, GameSize, sig);
+            //        Console.WriteLine("Scan Completed! Found GameEvent!");
+            //        Console.WriteLine("MAKE SURE TO PRESS F5 WHEN ENTERING A NEW GAME!!");
+            //    }
 
-                if (GameTimeInSeconds <= 0)
-                {
-                    Console.WriteLine($"[{DateTime.Now}] Scanning.");
-                    string sig = "C0 1F ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 04 00 10 10 01 00 00 02 ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 FF FF FF FF FF FF FF FF ?? ?? ?? ?? FF FF FF FF ?? ?? ?? ?? ?? ?? ?? ?? F9 EC 00 00 ?? 00 00 00";
-                    GameEvent = Memory.FindSignatureBase(processHandle, GameBase, GameSize, sig);
-                    Console.WriteLine("Scan Completed! Found GameEvent!");
-                    Console.WriteLine("MAKE SURE TO PRESS F5 WHEN ENTERING A NEW GAME!!");
-                }
-            }
+            //    if (GameTimeInSeconds <= 0)
+            //    {
+            //        Console.WriteLine($"[{DateTime.Now}] Scanning.");
+            //        string sig = "C0 1F ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 04 00 10 10 01 00 00 02 ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 FF FF FF FF FF FF FF FF ?? ?? ?? ?? FF FF FF FF ?? ?? ?? ?? ?? ?? ?? ?? F9 EC 00 00 ?? 00 00 00";
+            //        GameEvent = Memory.FindSignatureBase(processHandle, GameBase, GameSize, sig);
+            //        Console.WriteLine("Scan Completed! Found GameEvent!");
+            //        Console.WriteLine("MAKE SURE TO PRESS F5 WHEN ENTERING A NEW GAME!!");
+            //    }
+            //}
 
             ///////////////////////////////////////////NEW UPDATE INFO///////////////////////////////////////////////////////////////////////
 
@@ -313,13 +313,16 @@ namespace RocketLeague
 
             var Throttle = Memory.ReadFloat(processHandle, (IntPtr)PlayerController.ToInt64() + 0x0958);
             var Steer = Memory.ReadFloat(processHandle, (IntPtr)PlayerController.ToInt64() + 0x095C);
-            var Car = Memory.ReadPointer(processHandle, (IntPtr)PlayerController.ToInt64() + 0x0948, isWow64Process);
+            var Car = Memory.ReadPointer(processHandle, (IntPtr)PlayerController.ToInt64() + 0x0968, isWow64Process);
             var CarLocation = Memory.ReadVector3(processHandle, (IntPtr)Car.ToInt64() + 0x0090);
             var CarRotation = Memory.ReadVector3(processHandle, (IntPtr)Car.ToInt64() + 0x009C);
             var CarYaw = Memory.ReadInt32(processHandle, (IntPtr)Car.ToInt64() + 0x009C + 0x04);
             var CarVelocity = Memory.ReadVector3(processHandle, (IntPtr)Car.ToInt64() + 0x01A8);
+            var CarPickUp = Memory.ReadPointer(processHandle, (IntPtr)Car.ToInt64() + 0x09A8, isWow64Process);
+            var AttachedPickup = Memory.ReadPointer(processHandle, (IntPtr)CarPickUp.ToInt64() + 0x02C0, isWow64Process);
+            var PickUp = Memory.ReadString(processHandle, (IntPtr)AttachedPickup.ToInt64() + 0x0000, isWow64Process);
+            //Console.WriteLine(PickUp);
 
-           
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             ////////////////////////////////GOAL STUFF HERE/////////////////////////////////////////////////////////////////////
@@ -391,7 +394,7 @@ namespace RocketLeague
             ///////////////////////////////////////////////CAR TO BALL////////////////////////////////////////////////////////////////////////////////////////////////
             var bias_direction = (CarLocation - EnemyGoalLocation);
             bias_direction.Normalize();
-            Vector3 target = BallLocation + bias_direction * 140;
+            Vector3 target = BallLocation + bias_direction * 152;
 
             var aim = Math.Atan2(BallLocation.Y - CarLocation.Y, BallLocation.X - CarLocation.X);
             var aim2 = Math.Atan2(target.Y - CarLocation.Y, target.X - CarLocation.X);
@@ -434,8 +437,8 @@ namespace RocketLeague
                
             }
 
-           
 
+            
 
 
             if (Components.VisualsComponent.BallChase.Enabled)
@@ -695,6 +698,18 @@ namespace RocketLeague
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             ////////////////////////////////////Ball To Goal Aimbot////////////////////////////////////////////////////////////
+
+            Vector2 Pickups = new Vector2(0, 0);
+            if (Renderer.WorldToScreenUE3(CarLocation, out Pickups, Location, rotator.Pitch, rotator.Yaw, rotator.Roll, LastCamFov, wndMargins, wndSize))
+            {
+                if (Components.VisualsComponent.DrawBallESP.Enabled)
+                {
+
+                    Renderer.DrawText(PickUp, Pickups, Color.Purple);
+                }
+            }
+
+
 
             Vector2 BallESP = new Vector2(0, 0);
             if (Renderer.WorldToScreenUE3(target, out BallESP, Location, rotator.Pitch, rotator.Yaw, rotator.Roll, LastCamFov, wndMargins, wndSize))
