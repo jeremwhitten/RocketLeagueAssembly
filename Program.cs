@@ -230,7 +230,7 @@ namespace RocketLeague
             if (GameEvent == IntPtr.Zero)
             {
                 Console.WriteLine($"[{DateTime.Now}] Scanning.");
-                string sig = "?? 30 ?? ?? ?? 7F 00 00 ?? ?? ?? ?? ?? ?? 00 00 04 00 10 10 01 00 00 02 ?? ?? ?? ?? ?? ?? 00 00 ?? ?? ?? ?? ?? ??";
+                string sig = "08 64 97 A1 F6 7F 00 00 ?? ?? ?? ?? F0 01 00 00 04 00 10 10 01 00 00 02 ?? ?? ?? ?? F0 01 00 00 ?? ?? ?? ?? F0 01 00 00 00 00 00 00 00 00 00 00";
                 GameEvent = Memory.FindSignatureBase(processHandle, GameBase, GameSize, sig);
                 Console.WriteLine("Scan Completed! Found GameEvent!");
                 Console.WriteLine("MAKE SURE TO PRESS F5 WHEN ENTERING A NEW GAME!!");
@@ -240,7 +240,7 @@ namespace RocketLeague
 
 
 
-            var GameEngine = Memory.ReadPointer(processHandle, (IntPtr)GameBase.ToInt64() + 0x0241F130, isWow64Process);
+            var GameEngine = Memory.ReadPointer(processHandle, (IntPtr)GameBase.ToInt64() + 0x024221F0, isWow64Process);
             var LocalPlayersArray = Memory.ReadPointer(processHandle, (IntPtr)GameEngine.ToInt64() + 0x760, isWow64Process);
 
             var LocalPlayer = Memory.ReadPointer(processHandle, (IntPtr)LocalPlayersArray.ToInt64(), isWow64Process);
