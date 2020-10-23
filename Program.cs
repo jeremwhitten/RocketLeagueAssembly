@@ -198,18 +198,6 @@ namespace RocketLeague
                     GameCenterPos = new Vector2(wndSize.X / 2 + wndMargins.X, wndSize.Y / 2 + wndMargins.Y);
                     isOverlayOnTop = Overlay.IsOnTop();
                     GameBase = Memory.GetModule(processHandle, null, isWow64Process);
-
-
-                    //if (GameEvent == IntPtr.Zero)
-                    //{
-                    //    Console.WriteLine($"[{DateTime.Now}] Scanning.");
-                    //    string sig = "C0 1F ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 04 00 10 10 01 00 00 02 ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 FF FF FF FF FF FF FF FF ?? ?? ?? ?? FF FF FF FF ?? ?? ?? ?? ?? ?? ?? ?? F9 EC 00 00 ?? 00 00 00";
-                    //    GameEvent = Memory.FindSignatureBase(processHandle, GameBase, GameSize, sig);
-                    //    Console.WriteLine("Scan Completed! Found GameEvent!");
-                    //    Console.WriteLine("MAKE SURE TO PRESS F5 WHEN ENTERING A NEW GAME!!");
-                    //}
-
-
                 }
                 else 
                 {
@@ -230,7 +218,7 @@ namespace RocketLeague
             if (GameEvent == IntPtr.Zero)
             {
                 Console.WriteLine($"[{DateTime.Now}] Scanning.");
-                string sig = "08 64 97 A1 F6 7F 00 00 ?? ?? ?? ?? ?? 01 00 00 04 00 10 10 01 00 00 02 ?? ?? ?? ?? ?? 01 00 00 ?? ?? ?? ?? ?? 01 00 00 00 00 00 00 00 00 00 00";
+                string sig = "08 64 ?? ?? ?? 7F 00 00 ?? ?? ?? ?? ?? ?? 00 00 04 00 10 10 01 00 00 02 ?? ?? ?? ?? ?? ?? 00 00 ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 00 00";
                 GameEvent = Memory.FindSignatureBase(processHandle, GameBase, GameSize, sig);
                 Console.WriteLine("Scan Completed! Found GameEvent!");
                 Console.WriteLine("MAKE SURE TO PRESS F5 WHEN ENTERING A NEW GAME!!");
@@ -240,7 +228,7 @@ namespace RocketLeague
 
 
 
-            var GameEngine = Memory.ReadPointer(processHandle, (IntPtr)GameBase.ToInt64() + 0x02333338, isWow64Process);
+            var GameEngine = Memory.ReadPointer(processHandle, (IntPtr)GameBase.ToInt64() + 0x24221F0, isWow64Process);
             var LocalPlayersArray = Memory.ReadPointer(processHandle, (IntPtr)GameEngine.ToInt64() + 0x760, isWow64Process);
 
             var LocalPlayer = Memory.ReadPointer(processHandle, (IntPtr)LocalPlayersArray.ToInt64(), isWow64Process);
