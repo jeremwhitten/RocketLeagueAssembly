@@ -230,7 +230,7 @@ namespace RocketLeague
             if (GameEvent == IntPtr.Zero)
             {
                 Console.WriteLine($"[{DateTime.Now}] Scanning.");
-                string sig = "08 64 97 A1 F6 7F 00 00 ?? ?? ?? ?? F0 01 00 00 04 00 10 10 01 00 00 02 ?? ?? ?? ?? F0 01 00 00 ?? ?? ?? ?? F0 01 00 00 00 00 00 00 00 00 00 00";
+                string sig = "08 64 97 A1 F6 7F 00 00 ?? ?? ?? ?? ?? 01 00 00 04 00 10 10 01 00 00 02 ?? ?? ?? ?? ?? 01 00 00 ?? ?? ?? ?? ?? 01 00 00 00 00 00 00 00 00 00 00";
                 GameEvent = Memory.FindSignatureBase(processHandle, GameBase, GameSize, sig);
                 Console.WriteLine("Scan Completed! Found GameEvent!");
                 Console.WriteLine("MAKE SURE TO PRESS F5 WHEN ENTERING A NEW GAME!!");
