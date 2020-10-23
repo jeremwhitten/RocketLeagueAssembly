@@ -240,7 +240,7 @@ namespace RocketLeague
 
 
 
-            var GameEngine = Memory.ReadPointer(processHandle, (IntPtr)GameBase.ToInt64() + 0x024221F0, isWow64Process);
+            var GameEngine = Memory.ReadPointer(processHandle, (IntPtr)GameBase.ToInt64() + 0x02333338, isWow64Process);
             var LocalPlayersArray = Memory.ReadPointer(processHandle, (IntPtr)GameEngine.ToInt64() + 0x760, isWow64Process);
 
             var LocalPlayer = Memory.ReadPointer(processHandle, (IntPtr)LocalPlayersArray.ToInt64(), isWow64Process);
